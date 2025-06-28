@@ -1,0 +1,238 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url('logo.png') no-repeat center center fixed; /* Use your Netflix-style image */
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+
+/* Black transparent overlay */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.75); /* Stronger darkness */
+  z-index: 0;
+}
+
+/* Container with z-index to appear above overlay */
+.container {
+  background: rgba(30, 30, 30, 0.95); /* Transparent black */
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+  width: 360px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+h2 {
+  color: #e50914;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #cccccc;
+}
+
+form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #2c2c2c;
+  color: #fff;
+}
+
+form input:focus {
+  outline: none;
+  box-shadow: 0 0 6px #e50914;
+  background-color: #333;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #e50914;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #b00610;
+}
+
+.redirect {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #bbbbbb;
+}
+
+.redirect a {
+  color: #e50914;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.redirect a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive for mobile */
+@media (max-width: 420px) {
+  .container {
+    width: 90%;
+    padding: 25px 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  button {
+    font-size: 15px;
+  }
+}
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url('logo.png') no-repeat center center fixed; /* Use your Netflix-style image */
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+
+/* Black transparent overlay */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.75); /* Stronger darkness */
+  z-index: 0;
+}
+
+/* Container with z-index to appear above overlay */
+.container {
+  background: rgba(30, 30, 30, 0.95); /* Transparent black */
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+  width: 360px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+h2 {
+  color: #e50914;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #cccccc;
+}
+
+form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #2c2c2c;
+  color: #fff;
+}
+
+form input:focus {
+  outline: none;
+  box-shadow: 0 0 6px #e50914;
+  background-color: #333;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #e50914;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #b00610;
+}
+
+.redirect {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #bbbbbb;
+}
+
+.redirect a {
+  color: #e50914;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.redirect a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive for mobile */
+@media (max-width: 420px) {
+  .container {
+    width: 90%;
+    padding: 25px 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  button {
+    font-size: 15px;
+  }
+}

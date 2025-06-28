@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard - Book MY SHOW</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <div class="admin-container">
+    <h1>Admin Dashboard 🎬</h1>
+    <form id="movie-form" enctype="multipart/form-data">
+  <label>Movie Title</label>
+  <input type="text" id="title" name="title" required />
+<label>Description</label>
+<textarea id="description" name="description" rows="4" required></textarea>
+
+  <label>Locations (comma-separated)</label>
+  <input type="text" id="locations" name="locations" placeholder="Hyderabad, Mumbai" required />
+
+  <label>Theatre Name</label>
+  <input type="text" id="theatre" name="theatre" required />
+
+  <label>Show Timings (comma-separated)</label>
+  <input type="text" id="timings" name="timings" placeholder="10:00AM, 1:00PM" required />
+
+  <label>Normal Seat Price</label>
+  <input type="number" id="normalPrice" name="normalPrice" placeholder="Normal Seat Price" required />
+
+  <label>Poster Image</label>
+  <input type="file" id="poster" name="poster" accept="image/*" required />
+
+  <button type="submit">Add Movie</button>
+</form>
+<button id="signout-btn" class="signout">Sign Out</button>
+
+
+  </div>
+
+<script>
+  const form = document.getElementById("movie-form");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("title", document.getElementById("title").value);
+    formData.append("description", document.getElementById("description").value);
+    formData.append("locations", document.getElementById("locations").value);
+    formData.append("theatre", document.getElementById("theatre").value);
+    formData.append("timings", document.getElementById("timings").value);
+    formData.append("normalPrice", document.getElementById("normalPrice").value);
+    formData.append("poster", document.getElementById("poster").files[0]);
+
+    try {
+      const res = await fetch("http://localhost:5000/admin/add-movie", {
+        method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("adminToken") || ""
+        },
+        body: formData
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        alert("Server Error: " + result.message);
+        return;
+      }
+
+      alert(result.message);
+      if (result.movie && result.movie.title) {
+        window.location.href = `admin-dashboard.html?title=${encodeURIComponent(result.movie.title)}`;
+      } else {
+        alert("Movie added, but no title returned.");
+      }
+
+    } catch (err) {
+      alert("Error adding movie");
+      console.error("Error adding movie:", err);
+    }
+  });
+  document.getElementById("signout-btn").addEventListener("click", () => {
+  localStorage.removeItem("adminToken"); // Clear token
+  window.location.href = "index.html";   // Redirect to login
+});
+
+</script>
+
+
+
+
+</body>
+</html>

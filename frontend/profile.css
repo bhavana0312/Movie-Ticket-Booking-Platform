@@ -1,0 +1,181 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('prof.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #ffffff;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Dark overlay like Netflix */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 0;
+}
+
+/* Everything else appears above the overlay */
+* {
+  position: relative;
+  z-index: 1;
+}
+
+/* Navbar styling */
+.navbar {
+  background-color: #000;
+  padding: 15px 30px;
+  box-shadow: 0 2px 8px rgba(229, 9, 20, 0.3);
+}
+
+.navbar h2 {
+  margin: 0;
+  color: #e50914;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: #1e1e1e;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.info p {
+  font-size: 18px;
+  margin: 12px 0;
+  color: #dddddd;
+}
+
+.bookings h2 {
+  margin-top: 30px;
+  color: #e50914;
+  font-size: 1.4rem;
+}
+
+.bookings ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.bookings li {
+  padding: 14px 16px;
+  border-bottom: 1px solid #333;
+  font-size: 16px;
+  background-color: #181818;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.movie-title {
+  font-weight: bold;
+  color: #fff;
+}
+
+.signout-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.3s ease;
+}
+.signout-btn:hover {
+  background-color: #b00610;
+}
+
+
+.booking-card {
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background-color: #1c1c1c;
+  color: #fff;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #111;
+  color: white;
+}
+
+.home-icon {
+  background-color: #e50914;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  margin-right: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.home-icon:hover {
+  background-color: #b00610;;
+}
+.footer {
+  background-color: #181818;
+  color: #aaa;
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 0.9rem;
+  margin-top: 60px;
+  border-top: 1px solid #333;
+}
+
+.footer a {
+  color: #aaa;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.social-icons {
+  margin-top: 10px;
+}
+
+.social-icons a img {
+  width: 24px;
+  height: 24px;
+  margin: 0 8px;
+  filter: brightness(0.9);
+  transition: transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}

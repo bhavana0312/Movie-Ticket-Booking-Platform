@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOOK MY SHOW - Sign Up </title>
+  <link rel="stylesheet" href="signup.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Create a password" required />
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        placeholder="Confirm your password"
+        required
+      />
+
+      <button type="submit">Sign Up</button>
+    </form>
+    <p class="redirect">
+      Already have an account?
+      <a href="index.html">Login here</a>
+    </p>
+  </div>
+</body>
+<script>
+  const form = document.getElementById('signupForm');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Collect form data
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const password = form.password.value;
+    const confirmPassword = form.confirmPassword.value;
+
+    // Simple password match check
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    // Prepare data to send to backend (adjust the API endpoint as needed)
+    const signupData = { name, email, password };
+
+    try {
+      // Send signup request to your backend API (replace URL with your signup endpoint)
+      const response = await fetch('/user/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(signupData)
+      });
+
+      if (response.ok) {
+  // Save complete user info to localStorage
+  localStorage.setItem("user", JSON.stringify({ name, email, city: "Not Set" }));
+
+  // Redirect to location setup or homepage
+  window.location.href = `./setlocation.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
+;
+}
+ else {
+        // Handle signup error response
+        const result = await response.json();
+        alert('Signup failed: ' + (result.message || 'Unknown error'));
+      }
+    } catch (error) {
+      alert('Error during signup: ' + error.message);
+    }
+  });
+</script>
+
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOOK MY SHOW - Select Seats </title>
+  <link rel="stylesheet" href="seat-selection.css" />
+</head>
+<body>
+
+ <header class="navbar">
+  <a href="javascript:history.back()" class="back-icon">
+    &#8592; <!-- Left arrow Unicode -->
+  </a>
+</header>
+
+
+  <main class="container">
+    <h1>Select Your Seats</h1>
+
+    <div class="screen">Screen This Way</div>
+
+    <div class="seats-layout" id="seats-layout">
+      <!-- Seats will be generated here -->
+    </div>
+
+    <div class="selected-info">
+      Selected Seats: <span id="selected-count">0</span> |
+      Total Price: ₹<span id="total-price">0</span>
+    </div>
+
+    <button id="proceed-btn" disabled>Book My Show</button>
+  </main>
+
+ <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const movieTitle = urlParams.get("movieTitle");
+  const showDate = urlParams.get("showDate");
+  const showTime = urlParams.get("showTime");
+  const userEmail = urlParams.get("userEmail");
+  const seatType = urlParams.get("seatType") || "Premium";
+  const theatre = urlParams.get("theatre");
+  const customShowId = decodeURIComponent(urlParams.get("showId")); // ✅ renamed to customShowId
+
+  console.log("📦 Received customShowId:", customShowId);
+
+  if (!movieTitle || !showDate || !showTime || !userEmail || !customShowId) {
+    alert("Missing booking details. Redirecting...");
+    window.location.href = "login.html";
+  }
+
+  const seatLayout = document.getElementById('seats-layout');
+  const selectedCount = document.getElementById('selected-count');
+  const totalPrice = document.getElementById('total-price');
+  const proceedBtn = document.getElementById('proceed-btn');
+
+  const rows = 5;
+  const cols = 8;
+  const seatPrice = seatType === 'VIP' ? 200 : seatType === 'Premium' ? 150 : 100;
+
+  let bookedSeats = [];
+  let selectedSeats = [];
+
+  async function fetchBookedSeats() {
+    try {
+      const encodedId = encodeURIComponent(customShowId); // use customShowId
+      const res = await fetch(`http://localhost:5000/api/shows/${encodedId}`);
+      if (!res.ok) throw new Error("Show not found");
+
+      const data = await res.json();
+
+      bookedSeats = data.seatLayout
+        .filter(seat => seat.isBooked)
+        .map(seat => {
+          const row = seat.seatNumber.charCodeAt(0) - 64;
+          const col = seat.seatNumber.slice(1);
+          return `${row}_${col}`;
+        });
+    } catch (err) {
+      console.error('❌ Error fetching booked seats:', err.message);
+    }
+  }
+
+  function createSeats() {
+    for (let r = 1; r <= rows; r++) {
+      const rowDiv = document.createElement('div');
+      rowDiv.classList.add('seat-row');
+
+      for (let c = 1; c <= cols; c++) {
+        const seatId = `${r}_${c}`;
+        const seat = document.createElement('div');
+        seat.classList.add('seat');
+        seat.dataset.seatId = seatId;
+        seat.innerText = String.fromCharCode(64 + r) + c;
+
+        if (bookedSeats.includes(seatId)) {
+          seat.classList.add('booked');
+        }
+
+        seat.addEventListener('click', () => {
+          if (seat.classList.contains('booked')) return;
+
+          if (seat.classList.contains('selected')) {
+            seat.classList.remove('selected');
+            selectedSeats = selectedSeats.filter(id => id !== seatId);
+          } else {
+            seat.classList.add('selected');
+            selectedSeats.push(seatId);
+          }
+
+          updateSelectedInfo();
+        });
+
+        rowDiv.appendChild(seat);
+      }
+
+      seatLayout.appendChild(rowDiv);
+    }
+  }
+
+  function updateSelectedInfo() {
+    selectedCount.innerText = selectedSeats.length;
+    totalPrice.innerText = selectedSeats.length * seatPrice;
+    proceedBtn.disabled = selectedSeats.length === 0;
+  }
+
+  proceedBtn.addEventListener('click', async () => {
+    const seatLabels = selectedSeats.map(id => {
+      const [r, c] = id.split('_');
+      return String.fromCharCode(64 + parseInt(r)) + c;
+    });
+
+    const bookingData = {
+      userEmail,
+      customShowId,
+      seatNumbers: seatLabels,
+      seatType,
+      movieTitle,
+      showDate,
+      showTime,
+      theatre
+    };
+
+    console.log("📤 Sending booking data:", bookingData);
+
+    try {
+      const res = await fetch('http://localhost:5000/booking/book', {  
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bookingData)
+      });
+
+      const resultText = await res.text();
+      console.log("🔥 Raw server response:", resultText);
+
+      let result;
+      try {
+        result = JSON.parse(resultText);
+      } catch {
+        throw new Error("Booking failed. Server returned non-JSON.");
+      }
+
+      if (!res.ok) {
+        throw new Error(result.error || "Booking failed. Please try again.");
+      }
+
+      alert(
+        `🎟️ Tickets Booked Successfully!\n` +
+        `Seats: ${seatLabels.join(', ')}\n` +
+        `Total: ₹${selectedSeats.length * seatPrice}\n` +
+        `👉 Check your profile for booking details!`
+      );
+
+      // Save user data into localStorage again (so profile works fine)
+      const existingUser = JSON.parse(localStorage.getItem("user")) || {};
+      localStorage.setItem("user", JSON.stringify({
+        email: userEmail,
+        name: existingUser.name || "User",
+        location: existingUser.location || theatre || "Unknown"
+      }));
+
+      // ✅ Redirect to profile page
+      window.location.href = `profile.html?email=${encodeURIComponent(userEmail)}`;
+
+    } catch (err) {
+      console.error("❌ Booking failed:", err.message);
+      alert(err.message);
+    }
+  });
+
+  fetchBookedSeats().then(createSeats);
+</script>
+
+</body>
+</html>

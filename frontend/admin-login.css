@@ -1,0 +1,130 @@
+/* index.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background: url('logo.png') no-repeat center center fixed; /* Replace with your bg image */
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Netflix-style black transparent overlay */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.75); /* Dark overlay */
+  z-index: 0;
+}
+
+.login-container {
+  background: rgba(24, 24, 24, 0.95); /* Semi-transparent black */
+  padding: 2.5rem 3rem;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+  width: 340px;
+  text-align: center;
+  border: 1px solid #333;
+  z-index: 1;
+  position: relative;
+}
+
+.login-container h2 {
+  margin-bottom: 1.5rem;
+  color: #e50914;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.login-form,
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 0.3rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+input[type="email"],
+input[type="password"] {
+  padding: 0.5rem;
+  margin-bottom: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  background: #2c2c2c;
+  color: white;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  box-shadow: 0 0 8px #e50914;
+  background: #333;
+}
+
+button[type="submit"] {
+  background-color: #e50914;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 5px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #b00610;
+}
+
+.signout {
+  background-color: #b00610;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+.signup-text {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.signup-text a {
+  color: #e50914;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive for small screens */
+@media (max-width: 400px) {
+  .login-container {
+    width: 90%;
+    padding: 2rem;
+  }
+}

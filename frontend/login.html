@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BOOK MY SHOW - Home</title>
+  <link rel="stylesheet" href="login.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+ <!-- 🔥 NAVBAR -->
+<header class="navbar">
+  <div class="navbar-left">
+    <a id="setLocationLink">
+      <button class="icon-btn">
+        <span class="material-icons">location_on</span>
+        <span class="btn-text" id="location-label">Set Location</span>
+      </button>
+    </a>
+  </div>
+
+  <p class="caption">Skip the crowd. Grab your seat like a pro. 🎬🎁</p>
+
+  <div class="navbar-right">
+    <a id="profileLink">
+      <button class="icon-btn">
+        <span class="material-icons">account_circle</span>
+        <span class="btn-text">My Profile</span>
+      </button>
+    </a>
+  </div>
+</header>
+
+<!-- 📇 Alphabet Sidebar -->
+<!-- 📇 Alphabet Sidebar -->
+<div class="alphabet-sidebar">
+  <ul>
+    <li onclick="scrollToLetter('A')">A</li>
+    <li onclick="scrollToLetter('B')">B</li>
+    <li onclick="scrollToLetter('C')">C</li>
+    <li onclick="scrollToLetter('D')">D</li>
+    <li onclick="scrollToLetter('E')">E</li>
+    <li onclick="scrollToLetter('F')">F</li>
+    <li onclick="scrollToLetter('G')">G</li>
+    <li onclick="scrollToLetter('H')">H</li>
+    <li onclick="scrollToLetter('I')">I</li>
+    <li onclick="scrollToLetter('J')">J</li>
+    <li onclick="scrollToLetter('K')">K</li>
+    <li onclick="scrollToLetter('L')">L</li>
+    <li onclick="scrollToLetter('M')">M</li>
+    <li onclick="scrollToLetter('N')">N</li>
+    <li onclick="scrollToLetter('O')">O</li>
+    <li onclick="scrollToLetter('P')">P</li>
+    <li onclick="scrollToLetter('Q')">Q</li>
+    <li onclick="scrollToLetter('R')">R</li>
+    <li onclick="scrollToLetter('S')">S</li>
+    <li onclick="scrollToLetter('T')">T</li>
+    <li onclick="scrollToLetter('U')">U</li>
+    <li onclick="scrollToLetter('V')">V</li>
+    <li onclick="scrollToLetter('W')">W</li>
+    <li onclick="scrollToLetter('X')">X</li>
+    <li onclick="scrollToLetter('Y')">Y</li>
+    <li onclick="scrollToLetter('Z')">Z</li>
+  </ul>
+</div>
+
+
+  <!-- 🎥 MOVIES SECTION -->
+  <main class="movie-section">
+    <h2>Now Showing 🎬</h2>
+    <div class="movie-grid" id="movie-grid">
+      <!-- Movie cards will be dynamically inserted here -->
+    </div>
+  </main>
+<!-- Footer -->
+<footer class="footer">
+  <p>&copy; 2025 Book My Show 🎬 | Contact: <a href="mailto:bhavanapolathala9920@gmail.com">support@bookmyshow.com</a></p>
+  <div class="social-icons">
+    <a href="https://www.instagram.com/yourpage" target="_blank" aria-label="Instagram">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" />
+    </a>
+    <a href="https://www.linkedin.com/in/yourprofile" target="_blank" aria-label="LinkedIn">
+      <img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" />
+    </a>
+    <a href="https://github.com/yourgithub" target="_blank" aria-label="GitHub">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" />
+    </a>
+    <a href="https://twitter.com/yourtwitter" target="_blank" aria-label="Twitter">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" />
+    </a>
+    <a href="https://youtube.com/yourchannel" target="_blank" aria-label="YouTube">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" />
+    </a>
+  </div>
+</footer>
+
+
+<!-- 🌟 SCRIPT -->
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const userEmail = urlParams.get("email");
+
+  if (!userEmail) {
+    alert("Please login first.");
+    window.location.href = "index.html";
+  } else {
+    localStorage.setItem("userEmail", userEmail);
+  }
+
+  // ✅ Set profile and location link URLs
+  document.getElementById('profileLink').href = `profile.html?email=${encodeURIComponent(userEmail)}`;
+  document.getElementById('setLocationLink').href = `setlocation.html?email=${encodeURIComponent(userEmail)}`;
+
+  // ✅ Get user and city info
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  // 🧠 If city not in localStorage, try to get from user.location
+let city = localStorage.getItem("userCity");
+
+if (!city) {
+  if (user.location && user.location !== "Not Set") {
+    city = user.location;
+    localStorage.setItem("userCity", city);
+  } else {
+    alert("Please set your location first!");
+    window.location.href = `setlocation.html?email=${encodeURIComponent(userEmail)}`;
+  }
+}
+
+// ✅ Update the location label on navbar
+document.getElementById("location-label").textContent = city || "Set Location";
+
+
+  async function loadMovies() {
+    try {
+      const res = await fetch(`http://localhost:5000/movies/by-location/${city}`);
+      if (!res.ok) throw new Error('Failed to fetch movies');
+
+      const movies = await res.json();
+      const movieGrid = document.getElementById('movie-grid');
+      movieGrid.innerHTML = '';
+
+      if (movies.length === 0) {
+        movieGrid.innerHTML = `<p>No movies found in ${city}</p>`;
+        return;
+      }
+
+    let seenLetters = new Set();
+
+movies.sort((a, b) => a.title.localeCompare(b.title)).forEach(movie => {
+  const imgSrc = movie.poster || 'https://via.placeholder.com/300x420?text=' + encodeURIComponent(movie.title);
+  const firstLetter = movie.title[0].toUpperCase();
+
+  // Create a letter anchor only once
+  if (!seenLetters.has(firstLetter)) {
+    const anchor = document.createElement('div');
+    anchor.id = `letter-${firstLetter}`;
+    anchor.style.height = '1px'; // invisible but scrolled to
+    movieGrid.appendChild(anchor);
+    seenLetters.add(firstLetter);
+  }
+
+  const movieCardLink = document.createElement('a');
+  movieCardLink.href = `movie-details.html?title=${encodeURIComponent(movie.title)}&email=${encodeURIComponent(userEmail)}`;
+  movieCardLink.className = 'movie-card-link';
+  movieCardLink.innerHTML = `
+    <div class="movie-card">
+      <img src="${imgSrc}" alt="${movie.title}">
+      <p>${movie.title}</p>
+    </div>
+  `;
+  movieGrid.appendChild(movieCardLink);
+});
+
+    } catch (err) {
+      console.error('Error loading movies:', err);
+      document.getElementById('movie-grid').innerHTML = '<p>Failed to load movies. Please try again later.</p>';
+    }
+  }
+
+  loadMovies();
+  
+document.getElementById("location-label").textContent = city || "Set Location";
+
+</script>
+
+
+<script>
+  // 🎯 Highlight newly added movie if present
+  const params = new URLSearchParams(window.location.search);
+  const newTitle = params.get('title');
+
+  if (newTitle) {
+    const highlightMovie = async () => {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const cards = document.querySelectorAll('.movie-card-link');
+      cards.forEach(card => {
+        const title = card.querySelector('p').textContent.trim();
+        if (title.toLowerCase() === newTitle.toLowerCase()) {
+          card.style.border = '3px solid #ff5722';
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    };
+
+    highlightMovie();
+  }
+</script>
+<script>
+  function scrollToLetter(letter) {
+    const target = document.getElementById(`letter-${letter}`);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+</script>
+
+</body>
+</html>

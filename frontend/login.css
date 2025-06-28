@@ -1,0 +1,215 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+ 
+  background-size: cover;
+  background-color: #000000;
+  color: #ffffff;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Dark overlay like Netflix */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 0;
+}
+
+/* Keep all content above the overlay */
+* {
+  position: relative;
+  z-index: 1;
+}
+
+.navbar {
+  
+  display: flex;
+  align-items: center;
+  background-color: #000000;
+  padding: 25px 20px;
+  color: white;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+}
+
+.navbar-left a,
+.navbar-right a {
+  text-decoration: none;
+  color: #e50914;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 0 10px;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  background-color: #e50914;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin-right: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  gap: 6px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.icon-btn:hover {
+  background-color: #b00610;
+}
+
+.material-icons {
+  font-size: 20px;
+}
+
+.movie-section {
+  padding: 30px;
+}
+
+.movie-section h2 {
+  margin-bottom: 20px;
+  color: #e50914;
+  font-size: 1.6rem;
+}
+
+.movie-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.movie-card {
+  width: 280px;
+  background-color: rgba(30, 30, 30, 0.95);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(229, 9, 20, 0.15);
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 6px;
+  height: auto;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 10px auto;
+  color: #ccc;
+  text-align: center;
+}
+
+.movie-card p {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.movie-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.movie-card-link:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.caption {
+  color: #e0e0e0;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  margin: 16px 0;
+  letter-spacing: 0.5px;
+  font-family: 'Segoe UI', sans-serif;
+  opacity: 0.85;
+}
+.alphabet-sidebar {
+  position: fixed;
+  top: 150px;
+  right: 0;
+  width: 40px;
+  background-color: transparent;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: 2px solid rgba(255, 255, 255, 0.2); /* THE DIVIDER LINE */
+  padding-left: 5px;
+}
+
+.alphabet-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+}
+
+.alphabet-sidebar li {
+  margin: 4px 0;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.alphabet-sidebar li:hover {
+  background-color: #e50914;
+  color: white;
+}
+.footer {
+  background-color: #181818;
+  color: #aaa;
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 0.9rem;
+  margin-top: 60px;
+  border-top: 1px solid #333;
+}
+
+.footer a {
+  color: #aaa;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.social-icons {
+  margin-top: 10px;
+}
+
+.social-icons a img {
+  width: 24px;
+  height: 24px;
+  margin: 0 8px;
+  filter: brightness(0.9);
+  transition: transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+

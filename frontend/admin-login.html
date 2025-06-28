@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BOOK MY SHOW</title>
+  <link rel="stylesheet" href="admin-login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>Admin Login 🔐</h2>
+    <form class="admin-login-form">
+      <label for="admin-email">Email</label>
+      <input type="email" id="admin-email" placeholder="Enter admin email" required />
+
+      <label for="admin-password">Password</label>
+      <input type="password" id="admin-password" placeholder="Enter password" required />
+
+      <button type="submit">Login as Admin</button>
+    </form>
+
+    <p style="margin-top: 1.5rem; text-align: center;">
+      Not an admin? <a href="index.html" style="color: #ff5722; font-weight: 700; text-decoration: none;">Back to User Login</a>
+    </p>
+  </div>
+
+<script>
+  const adminForm = document.querySelector('.admin-login-form');
+
+  adminForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('admin-email').value.trim();
+    const password = document.getElementById('admin-password').value.trim();
+
+    console.log('Submitting admin login...'); 
+
+    try {
+      const res = await fetch('/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: email, password })  
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem('adminToken', result.token);
+        alert('Admin login successful!');
+        window.location.href = 'admin-dashboard.html';
+      } else {
+        alert(result.message || 'Admin login failed');
+      }
+    } catch (err) {
+      console.error('Admin login error:', err);
+      alert('Something went wrong during admin login.');
+    }
+  });
+</script>
+
+</body>
+</html>

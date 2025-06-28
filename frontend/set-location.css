@@ -1,0 +1,148 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding-right: 60px;
+  background: url('location.png') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Netflix-style dark overlay */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75); /* Deep overlay */
+  z-index: 0;
+}
+
+/* Make all elements appear above overlay */
+* {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ✅ Top Navbar */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 30px;
+  background-color: rgba(20, 20, 20, 0.85);
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.navbar h2 {
+  margin: 0;
+  color: #e50914;
+  font-size: 26px;
+  font-weight: bold;
+  padding-left: 50px;
+  letter-spacing: 1px;
+}
+
+.location-container {
+  margin-left: 30px;
+  max-width: 420px;
+  background: rgba(31, 31, 31, 0.95);
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+  text-align: center;
+  color: white;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #e50914;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2b2b2b;
+  color: white;
+  outline: none;
+}
+
+select:focus {
+  border: 2px solid #e50914;
+}
+
+button {
+  background-color: #e50914;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #b00610;
+}
+
+
+.back-icon {
+  font-size: 24px;
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-icon:hover {
+  color: #f39c12;
+}
+.footer {
+  background-color: #181818;
+  color: #aaa;
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 0.9rem;
+  margin-top: 60px;
+  border-top: 1px solid #333;
+}
+
+.footer a {
+  color: #aaa;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.social-icons {
+  margin-top: 10px;
+}
+
+.social-icons a img {
+  width: 24px;
+  height: 24px;
+  margin: 0 8px;
+  filter: brightness(0.9);
+  transition: transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}

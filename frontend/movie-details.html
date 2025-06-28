@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BOOK MY SHOW - Movie Details</title>
+  <link rel="stylesheet" href="movie-details.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+  <a href="javascript:history.back()" class="back-icon">
+    &#8592; <!-- Left arrow Unicode -->
+  </a>
+</header>
+
+
+  <div class="movie-details-container" id="movie-container">
+    <!-- Movie details will be injected here -->
+  </div>
+  
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieTitle = urlParams.get('title');
+    const userEmail = localStorage.getItem("userEmail");
+    const showDate = urlParams.get('showDate') || '2025-06-12'; // default
+
+    if (!movieTitle || !userEmail) {
+      alert("Missing movie or user info. Redirecting...");
+      window.location.href = "login.html";
+    }
+
+    console.log("Movie title from URL:", movieTitle);
+
+    async function fetchMovieDetails() {
+      try {
+        const res = await fetch(`http://localhost:5000/movies/by-title/${encodeURIComponent(movieTitle)}`);
+        const movie = await res.json();
+
+        const container = document.getElementById('movie-container');
+
+        container.innerHTML = `
+          <div class="movie-header">
+            <img src="${movie.poster}" alt="${movie.title}" />
+            <div>
+              <h1>${movie.title}</h1>
+              <p>Theatre: ${movie.theatre}</p>
+            </div>
+          </div>
+
+          <h2>Show Timings</h2>
+          <div class="showtimes">
+            ${movie.timings.map(time => `
+              <button onclick="bookNow('${movie.theatre}', '${time}')">${time}</button>
+            `).join('')}
+          </div>
+           <div class="description">
+            <h3>Description</h3>
+             <p>${movie.description}</p>
+          </div>
+        `;
+      } catch (err) {
+        document.getElementById('movie-container').innerHTML = '<p>Movie not found.</p>';
+        console.error(err);
+      }
+    }
+
+    function bookNow(theatre, time) {
+  alert(`Booking for ${movieTitle} at ${theatre} on ${showDate} at ${time}`);
+
+  const seatType = 'Premium'; // or get from selection
+  const showId = `${movieTitle}-${showDate}-${time}-${theatre}`; 
+
+  const url = `seat-selection.html?userEmail=${encodeURIComponent(userEmail)}&movieTitle=${encodeURIComponent(movieTitle)}&showTime=${encodeURIComponent(time)}&showDate=${encodeURIComponent(showDate)}&seatType=${encodeURIComponent(seatType)}&theatre=${encodeURIComponent(theatre)}&showId=${encodeURIComponent(showId)}`;
+
+  window.location.href = url;
+}
+
+
+
+    fetchMovieDetails();
+  </script>
+
+</body>
+</html>

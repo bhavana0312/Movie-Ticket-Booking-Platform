@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BOOK MY SHOW - My Profile</title>
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+  <a id="home-link" class="home-icon">Home</a>
+</header>
+
+
+  <div class="profile-container">
+    <h1>My Profile</h1>
+
+    <div class="info">
+      <p><strong>Name:</strong> <span id="user-name">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="user-email">Loading...</span></p>
+      <p><strong>Location:</strong> <span id="user-location">Loading...</span></p>
+    </div>
+
+    <div class="bookings">
+      <h2>Previous Bookings</h2>
+      <ul id="booking-list">
+        <!-- bookings will be dynamically inserted here -->
+      </ul>
+    </div>
+
+    <button id="signOutBtn" class="signout-btn">Sign Out</button>
+  </div>
+  
+<script>
+  // ✅ Set "Home" link with user email and name
+  const urlParams = new URLSearchParams(window.location.search);
+  const userEmail = urlParams.get('email');
+  let userName = urlParams.get('name');
+
+  // If name is not in URL, try to get from localStorage
+  if (!userName && localStorage.getItem("user")) {
+    try {
+      const userData = JSON.parse(localStorage.getItem("user"));
+      userName = userData.name || "";
+    } catch (e) {
+      userName = "";
+    }
+  }
+
+  // Set the href for the Home button
+  document.getElementById("home-link").href =
+    `login.html?email=${encodeURIComponent(userEmail)}&name=${encodeURIComponent(userName || "")}`;
+
+  // ✅ Now fetch profile
+  fetch(`http://localhost:5000/user/profile/${userEmail}`)
+    .then(res => res.json())
+    .then(data => {
+      // Update user info fields
+      document.getElementById('user-name').textContent = data.name || 'Not Available';
+      document.getElementById('user-email').textContent = data.email || 'Not Available';
+      document.getElementById('user-location').textContent = data.location || 'Not Available';
+
+      if (data.bookings && data.bookings.length > 0) {
+        const container = document.getElementById('booking-list');
+      
+        data.bookings.slice().reverse().forEach(booking => {
+          const bookingDiv = document.createElement('div');
+          bookingDiv.classList.add('booking-card');
+          const dateObj = new Date(booking.bookingDate);
+          const formattedDate = dateObj.toLocaleString('en-GB', {
+          day: 'numeric',
+          month: 'long', // 👉 shows June instead of 6
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+});
+
+          bookingDiv.innerHTML = `
+            <h3>🎬 ${booking.movieTitle}</h3>
+            <p><strong>Booked on:</strong> ${booking.bookingDate ? formattedDate : 'Unknown'}</p>
+            <p><strong>Time:</strong> ${booking.showTime}</p>
+            <p><strong>Seats:</strong> ${booking.selectedSeats.join(', ')}</p>
+            <p><strong>Type:</strong> ${booking.seatType}</p>
+            <p><strong>Fare:</strong> ₹${booking.totalFare}</p>
+            <p><strong>Theatre:</strong> ${booking.location}</p>
+          `;
+
+          container.appendChild(bookingDiv);
+        });
+      } else {
+        document.getElementById('booking-list').innerHTML = '<p>No bookings yet.</p>';
+      }
+    })
+    .catch(err => {
+      console.error('Error fetching profile:', err);
+    });
+
+  // ✅ Sign out
+  document.getElementById("signOutBtn").addEventListener("click", () => {
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userCity");
+    localStorage.removeItem("user");
+    window.location.href = "index.html";
+  });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BOOK MY SHOW - Set Location </title>
+  <link rel="stylesheet" href="set-location.css">
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header class="navbar">
+  <a href="javascript:history.back()" class="back-icon">
+    &#8592; <!-- Left arrow Unicode -->
+  </a>
+</header>
+  <div class="location-container">
+    <h1>Choose Your Location</h1>
+
+    <select id="city-select">
+      <option value="" disabled selected>Select your city</option>
+      <option value="Proddatur">Proddatur</option>
+      <option value="Hyderabad">Hyderabad</option>
+      <option value="Banglore">Bangalore</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Chennai">Chennai</option>
+    </select>
+
+    <button onclick="setLocation()">Set Location</button>
+  </div>
+  
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const userEmail = urlParams.get("email");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+  document.getElementById("welcome-name").textContent = user.name || "User";
+    function setLocation() {
+  const selectedCity = document.getElementById("city-select").value;
+
+  if (!selectedCity) {
+    alert("Please select a city.");
+    return;
+  }
+
+  // 🧠 Save city to localStorage
+  localStorage.setItem("userCity", selectedCity);
+
+  // 🧠 Update location in stored user object
+  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  storedUser.location = selectedCity;
+  localStorage.setItem("user", JSON.stringify(storedUser));
+
+  // ✅ Update backend DB too
+  fetch('http://localhost:5000/user/location', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: userEmail, location: selectedCity })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Location updated in backend:", data);
+    alert("Location updated successfully!");
+    window.location.href = `login.html?email=${encodeURIComponent(userEmail)}`;
+  })
+  .catch(err => {
+    console.error("Error updating location in backend:", err);
+    alert("Failed to update location");
+  });
+}
+
+  </script>
+
+</body>
+</html>
