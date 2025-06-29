@@ -73,7 +73,7 @@ app.use('/booking', bookingRoutes);
 const frontendPath = path.join(__dirname, '../frontend');
 app.use(express.static(frontendPath));
 
-app.get(/^\/(?!api|admin|user|movies|booking).*/, (req, res) => {
+app.get('*', (req, res) => {
   console.log("⚠️ Unmatched route:", req.originalUrl);
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
