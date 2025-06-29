@@ -7,7 +7,7 @@
     const password = document.getElementById('password').value.trim();
 
     try {
-      const res = await fetch('http://localhost:5000/user/login', {
+      const res = await fetch('https://booking-backend-48hv.onrender.com/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

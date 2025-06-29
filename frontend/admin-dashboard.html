@@ -52,7 +52,7 @@
     formData.append("poster", document.getElementById("poster").files[0]);
 
     try {
-      const res = await fetch("http://localhost:5000/admin/add-movie", {
+      const res = await fetch("https://booking-backend-48hv.onrender.com/admin/add-movie", {
         method: "POST",
         headers: {
           Authorization: localStorage.getItem("adminToken") || ""
