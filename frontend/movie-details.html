@@ -43,7 +43,8 @@
 
         container.innerHTML = `
           <div class="movie-header">
-            <img src="${movie.poster}" alt="${movie.title}" />
+            <img src="${movie.poster.startsWith('uploads/') ? 'https://booking-backend-48hv.onrender.com/' + movie.poster : movie.poster}" alt="${movie.title}" />
+
             <div>
               <h1>${movie.title}</h1>
               <p>Theatre: ${movie.theatre}</p>

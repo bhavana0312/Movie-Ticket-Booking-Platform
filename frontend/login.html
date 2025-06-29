@@ -149,7 +149,10 @@ document.getElementById("location-label").textContent = city || "Set Location";
     let seenLetters = new Set();
 
 movies.sort((a, b) => a.title.localeCompare(b.title)).forEach(movie => {
-  const imgSrc = movie.poster || 'https://via.placeholder.com/300x420?text=' + encodeURIComponent(movie.title);
+  const imgSrc = movie.poster.startsWith("uploads/")
+  ? `https://booking-backend-48hv.onrender.com/${movie.poster}`
+  : movie.poster || `https://via.placeholder.com/300x420?text=${encodeURIComponent(movie.title)}`;
+
   const firstLetter = movie.title[0].toUpperCase();
 
   // Create a letter anchor only once
