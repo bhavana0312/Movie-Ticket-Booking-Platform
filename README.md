@@ -28,4 +28,19 @@ A full-stack web application that lets users browse movies by city, view show de
 ```bash
 git clone https://github.com/bhavana0312/Movie-Ticket-Booking-Platform
 cd Movie-Ticket-Booking-Platform
+```
+2.**Install Dependencies**
+```bash
+npm install
+```
+3.**Create .env file**
+```bash
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/<dbname>?retryWrites=true&w=majority
+```
+4.**Run backend server**
+```bash
+node server.js
+```
+
+
 
