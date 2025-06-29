@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+require('dotenv').config();
 
 const Movie = require('./models/movie');
 const Show = require('./models/Show');
@@ -12,9 +13,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use('/uploads', express.static('uploads'));
+console.log("🌿 Loaded MONGO_URL =", process.env.MONGO_URL);
 
 // ===== MongoDB Connection =====
-mongoose.connect('mongodb://127.0.0.1:27017/bookmyshow', {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
