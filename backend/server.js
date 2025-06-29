@@ -39,7 +39,7 @@ app.post('/shows', async (req, res) => {
 });
 
 // Get shows for a movie
-app.get('/movies/:id/shows', async (req, res) => {
+app.get('/movies/by-id/:id/shows', async (req, res) => {
   try {
     const shows = await Show.find({ movie: req.params.id });
     res.send(shows);
