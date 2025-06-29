@@ -52,7 +52,7 @@
   localStorage.setItem("user", JSON.stringify(storedUser));
 
   // ✅ Update backend DB too
-  fetch('http://localhost:5000/user/location', {
+  fetch('https://booking-backend-48hv.onrender.com/user/location', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email: userEmail, location: selectedCity })

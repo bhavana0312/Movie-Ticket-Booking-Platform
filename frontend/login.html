@@ -134,7 +134,7 @@ document.getElementById("location-label").textContent = city || "Set Location";
 
   async function loadMovies() {
     try {
-      const res = await fetch(`http://localhost:5000/movies/by-location/${city}`);
+      const res = await fetch(`https://booking-backend-48hv.onrender.com/movies/by-location/${city}`);
       if (!res.ok) throw new Error('Failed to fetch movies');
 
       const movies = await res.json();

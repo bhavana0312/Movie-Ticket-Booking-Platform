@@ -54,7 +54,7 @@
     `login.html?email=${encodeURIComponent(userEmail)}&name=${encodeURIComponent(userName || "")}`;
 
   // ✅ Now fetch profile
-  fetch(`http://localhost:5000/user/profile/${userEmail}`)
+  fetch(`https://booking-backend-48hv.onrender.com/user/profile/${userEmail}`)
     .then(res => res.json())
     .then(data => {
       // Update user info fields
