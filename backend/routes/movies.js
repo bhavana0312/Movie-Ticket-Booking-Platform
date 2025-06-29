@@ -24,13 +24,17 @@ router.get('/by-location/:location', async (req, res) => {
 });
 
 // Get movie by title (for movie-details page)
-router.get('/by-title/:title', async (req, res) => {
-  const title = decodeURIComponent(req.params.title);
+// Get movie by title (for movie-details page)
+router.get('/by-title', async (req, res) => {
+  const title = decodeURIComponent(req.query.title || '');
+  if (!title) return res.status(400).json({ message: "Missing title" });
+
   const movie = await Movie.findOne({ title: { $regex: new RegExp('^' + title + '$', 'i') } });
 
   if (!movie) return res.status(404).json({ message: 'Movie not found' });
   res.json(movie);
 });
+
 
 
 module.exports = router;
