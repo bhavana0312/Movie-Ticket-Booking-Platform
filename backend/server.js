@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
+const fs = require('fs');
 
 const Movie = require('./models/movie');
 const Show = require('./models/Show');
@@ -74,8 +75,12 @@ const frontendPath = path.join(__dirname, '../frontend');
 app.use(express.static(frontendPath));
 
 app.get('*', (req, res) => {
-  console.log("⚠️ Unmatched route:", req.originalUrl);
-  res.sendFile(path.join(frontendPath, 'index.html'));
+  const indexPath = path.join(frontendPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send("Frontend not found.");
+  }
 });
 
 // ===== Start Server =====
