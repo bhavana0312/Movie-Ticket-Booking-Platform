@@ -74,14 +74,7 @@ app.use('/booking', bookingRoutes);
 const frontendPath = path.join(__dirname, '../frontend');
 app.use(express.static(frontendPath));
 
-app.get('/*', (req, res) => {
-  const indexPath = path.join(frontendPath, 'index.html');
-  if (fs.existsSync(indexPath)) {
-    res.sendFile(indexPath);
-  } else {
-    res.status(404).send("Frontend not found.");
-  }
-});
+
 
 // ===== Start Server =====
 const PORT = process.env.PORT || 5000;
